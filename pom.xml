@@ -30,20 +30,25 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.6.0</version>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.example.ZooCampBot</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>copy-dependencies</id>
+                        <id>make-assembly</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>copy-dependencies</goal>
+                            <goal>single</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/dependency</outputDirectory>
-                            <includeScope>runtime</includeScope>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

@@ -16,4 +16,4 @@ COPY . .
 RUN mvn package -DskipTests
 
 # Запускаємо програму
-CMD ["java", "-cp", "target/classes", "org.example.ZooCampBot"]
+CMD ["java", "-jar", "target/zoo-camp-1.0-SNAPSHOT-jar-with-dependencies.jar"]
