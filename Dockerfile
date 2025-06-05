@@ -1,20 +1,19 @@
-# Використовуємо офіційний образ Java 17 з Maven
+# Використовуємо офіційний образ з Java 17
 FROM eclipse-temurin:17-jdk
 
-# Встановлюємо робочу директорію в контейнері
+# Встановлюємо Maven
+RUN apt-get update && \
+    apt-get install -y maven && \
+    rm -rf /var/lib/apt/lists/*
+
+# Встановлюємо робочу директорію
 WORKDIR /app
 
-# Копіюємо pom.xml окремо, щоб кешувати залежності
-COPY pom.xml .
-
-# Завантажуємо залежності (кешується окремо)
-RUN mvn dependency:go-offline
-
-# Копіюємо весь проєкт
+# Копіюємо проєкт у контейнер
 COPY . .
 
-# Збираємо проект, пропускаючи тести
+# Збираємо проєкт з пропуском тестів
 RUN mvn package -DskipTests
 
-# Вказуємо команду запуску — запускаємо твою програму з усіма залежностями
-CMD ["java", "-cp", "target/classes:target/dependency/*", "org.example.ZooCampBot"]
+# Запускаємо програму
+CMD ["java", "-cp", "target/classes", "org.example.ZooCampBot"]
