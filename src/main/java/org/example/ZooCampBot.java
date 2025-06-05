@@ -14,7 +14,7 @@ public class ZooCampBot {
     private static final int CHECK_INTERVAL_SECONDS = 60;
 
     // ⚠️ Твій Telegram токен (зміні після тесту)
-    private static final String TELEGRAM_TOKEN = "7695325528:AAH6pwZI0ipygafJlD4u0iFqhsXwgAo03kE";
+    private static final String TELEGRAM_TOKEN = System.getenv("BOT_TOKEN");
 
     // Спочатку вручну отримай chat_id за допомогою getUpdates
     private static final long CHAT_ID = 467310292; // ← сюди встав свій реальний chat_id
@@ -42,11 +42,13 @@ public class ZooCampBot {
                 }
 
                 if (!available) {
+                    sendTelegramMessage("⛔ Місць немає (" + LocalTime.now() + ")");
                     System.out.println("⛔ Місць немає (" + LocalTime.now() + ")");
                 }
 
                 Thread.sleep(CHECK_INTERVAL_SECONDS * 50000);
             } catch (IOException | InterruptedException e) {
+                sendTelegramMessage("❌ Помилка: " + e.getMessage());
                 System.err.println("❌ Помилка: " + e.getMessage());
             }
         }
